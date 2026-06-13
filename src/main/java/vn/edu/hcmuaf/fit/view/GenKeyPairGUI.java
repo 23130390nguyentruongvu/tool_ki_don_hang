@@ -1,24 +1,25 @@
 package vn.edu.hcmuaf.fit.view;
 
+import vn.edu.hcmuaf.fit.controller.GenKeyPairController;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class GenKeyPairGUI extends JFrame {
 
-    public JComboBox<String> cb_algorithm, cb_mode, cb_padding;
-    public JComboBox<Integer> cb_keySize;
-    public JTextField jtf_privateKey, jtf_publicKey;
-    public JButton btn_genKey, btn_exportKey, btn_return, btn_delete;
-
+    private JComboBox<String> cb_algorithm, cb_mode, cb_padding;
+    private JComboBox<Integer> cb_keySize;
+    private JTextField jtf_privateKey, jtf_publicKey;
+    private JButton btn_genKey, btn_exportKey, btn_return, btn_delete;
+    private GenKeyPairController controller;
     public GenKeyPairGUI() throws HeadlessException {
         init();
+        controller = new GenKeyPairController(this);
     }
 
     public void init() {
         initComponents();
         buildLayout();
-
         setTitle("Tạo cặp khóa");
         setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,7 +39,6 @@ public class GenKeyPairGUI extends JFrame {
 
         btn_genKey    = new JButton("Tạo khóa");
         btn_exportKey = new JButton("Xuất khóa");
-
         btn_genKey.setFont(new Font("Arial", Font.BOLD, 13));
         btn_genKey.setBackground(new Color(52, 152, 219));
         btn_genKey.setForeground(Color.WHITE);
@@ -98,6 +98,30 @@ public class GenKeyPairGUI extends JFrame {
         p_actions.add(btn_delete);
         add(p_actions, gbc);
     }
+
+    public JComboBox<String>  getCbAlgorithm()  { return cb_algorithm; }
+    public JComboBox<String>  getCbMode()        { return cb_mode;      }
+    public JComboBox<String>  getCbPadding()     { return cb_padding;   }
+    public JComboBox<Integer> getCbKeySize()     { return cb_keySize;   }
+    public JButton  getBtnGenKey()     { return btn_genKey;}
+    public JButton getBtnExportKey()  { return btn_exportKey;}
+    public JButton getBtnReturn()     { return btn_return;}
+    public JButton getBtnDelete()     { return btn_delete;}
+
+
+
+    public String  getSelectedAlgorithm() { return (String)  cb_algorithm.getSelectedItem(); }
+    public String  getSelectedMode()      { return (String)  cb_mode.getSelectedItem();      }
+    public String  getSelectedPadding()   { return (String)  cb_padding.getSelectedItem();   }
+    public Integer getSelectedKeySize()   { return (Integer) cb_keySize.getSelectedItem();   }
+    public String  getPrivateKey()        { return jtf_privateKey.getText().trim();           }
+    public String  getPublicKey()         { return jtf_publicKey.getText().trim();            }
+
+
+    public void setPrivateKey(String key)        { jtf_privateKey.setText(key);  }
+    public void setPublicKey(String key)         { jtf_publicKey.setText(key);   }
+    public void setPaddingEnabled(boolean flag)  { cb_padding.setEnabled(flag);  }
+    public void setModeEnabled(boolean flag)     { cb_mode.setEnabled(flag);     }
 
     public static void main(String[] args) {
         new GenKeyPairGUI();
