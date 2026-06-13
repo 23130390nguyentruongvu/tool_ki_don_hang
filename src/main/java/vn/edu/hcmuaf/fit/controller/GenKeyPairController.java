@@ -3,8 +3,10 @@ package vn.edu.hcmuaf.fit.controller;
 import vn.edu.hcmuaf.fit.model.KeyGenModel;
 import vn.edu.hcmuaf.fit.utils.FileUtils;
 import vn.edu.hcmuaf.fit.view.GenKeyPairGUI;
+import vn.edu.hcmuaf.fit.view.HomeGUI;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +17,14 @@ public class GenKeyPairController {
 
     private final GenKeyPairGUI view;
     private final KeyGenModel model;
+    private HomeGUI homeGUI;
     private FileUtils fileUtils;
-    public GenKeyPairController(GenKeyPairGUI view) {
+    public GenKeyPairController(GenKeyPairGUI view, HomeGUI homeGUI) throws HeadlessException {
         this.view = view;
         this.model = new KeyGenModel();
         initController();
         update();
+        this.homeGUI = homeGUI;
     }
     private void initController() {
         view.getCbAlgorithm().addItemListener(e -> {
@@ -39,7 +43,14 @@ public class GenKeyPairController {
         });
         view.getBtnExportKey().addActionListener(e-> handleExportKey());
         view.getBtnDelete().addActionListener(e-> handleDelete());
+        view.getBtnReturn().addActionListener(e -> handleReturn());
     }
+
+    private void handleReturn() {
+        view.dispose();
+        homeGUI.setVisible(true);
+    }
+
 
     private void update() {
         boolean isRSA = "RSA".equals(view.getSelectedAlgorithm());

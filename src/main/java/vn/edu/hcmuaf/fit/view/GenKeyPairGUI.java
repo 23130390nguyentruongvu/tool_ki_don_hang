@@ -12,16 +12,16 @@ public class GenKeyPairGUI extends JFrame {
     private JTextField jtf_privateKey, jtf_publicKey;
     private JButton btn_genKey, btn_exportKey, btn_return, btn_delete;
     private GenKeyPairController controller;
-    public GenKeyPairGUI() throws HeadlessException {
+    public GenKeyPairGUI(HomeGUI homeGUI) throws HeadlessException {
         init();
-        controller = new GenKeyPairController(this);
+        controller = new GenKeyPairController(this, homeGUI);
     }
 
     public void init() {
         initComponents();
         buildLayout();
+        this.setSize(700, 520);
         setTitle("Tạo cặp khóa");
-        setSize(700, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
@@ -123,7 +123,5 @@ public class GenKeyPairGUI extends JFrame {
     public void setPaddingEnabled(boolean flag)  { cb_padding.setEnabled(flag);  }
     public void setModeEnabled(boolean flag)     { cb_mode.setEnabled(flag);     }
 
-    public static void main(String[] args) {
-        new GenKeyPairGUI();
-    }
+
 }
