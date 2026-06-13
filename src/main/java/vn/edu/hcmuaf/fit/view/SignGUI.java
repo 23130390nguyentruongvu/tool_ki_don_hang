@@ -1,5 +1,7 @@
 package vn.edu.hcmuaf.fit.view;
 
+import vn.edu.hcmuaf.fit.controller.SignController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -14,10 +16,15 @@ public class SignGUI extends JFrame {
     private JScrollPane scroll_sign_hash;
     private JScrollPane scroll_sign_result;
 
-    public JButton btn_sign_browse_key, btn_sign_execute, btn_sign_copy;
+    public JButton btn_sign_import_key, btn_sign_execute, btn_sign_copy;
 
-    public SignGUI() {
+    private SignController signController;
+
+    public SignGUI(SignController signController) {
+        this.signController = signController;
+        this.signController.setSignGUI(this);
         init();
+        registerController(this.signController);
     }
 
     public void init() {
@@ -34,7 +41,7 @@ public class SignGUI extends JFrame {
 
     private void initComponents() {
         jtf_private_key = new JTextField();
-        btn_sign_browse_key = new JButton("Nhập key từ file");
+        btn_sign_import_key = new JButton("Nhập key từ file");
         cb_sign_algo = new JComboBox<>(new String[]{"SHA256withRSA", "SHA256withDSA"});
 
         //vùng nhập mã hash
@@ -85,7 +92,7 @@ public class SignGUI extends JFrame {
         JPanel p_key = new JPanel(new BorderLayout(5, 0));
 
         p_key.add(jtf_private_key, BorderLayout.CENTER);
-        p_key.add(btn_sign_browse_key, BorderLayout.EAST);
+        p_key.add(btn_sign_import_key, BorderLayout.EAST);
         this.add(p_key, gbc);
 
         //dòng chọn thuật toán đẻ ký
@@ -130,12 +137,21 @@ public class SignGUI extends JFrame {
     }
 
     public void registerController(ActionListener actionListener) {
-        btn_sign_browse_key.addActionListener(actionListener);
+        btn_sign_import_key.addActionListener(actionListener);
         btn_sign_execute.addActionListener(actionListener);
         btn_sign_copy.addActionListener(actionListener);
     }
 
+    public void showMessage(String msg) {
+        JOptionPane.showMessageDialog(
+                this,
+                msg,
+                "Thông báo",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
     public static void main(String[] args) {
-        new SignGUI();
+        new SignGUI(new SignController());
     }
 }
