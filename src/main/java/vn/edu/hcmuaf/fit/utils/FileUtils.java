@@ -29,7 +29,7 @@ public abstract class FileUtils {
     }
 
     //method này hỗ trợ mở một dialog chọn file và trả về đường dẫn file đó
-    private static String getFilePath() {
+    public static String getFilePath() {
         JFileChooser fileChooser = new JFileChooser();
 
         fileChooser.setDialogTitle("Chọn file");
@@ -44,7 +44,7 @@ public abstract class FileUtils {
     }
 
     //method này giúp lấy ra đường dẫn thư mục, ứng dụng trong việc lưu khóa ra file
-    private static String getFolderPath() {
+    public static String getFolderPath() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Chọn thư mục");
 
