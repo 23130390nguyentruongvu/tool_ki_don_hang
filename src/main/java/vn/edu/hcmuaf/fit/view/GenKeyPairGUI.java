@@ -2,80 +2,101 @@ package vn.edu.hcmuaf.fit.view;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 
 public class GenKeyPairGUI extends JFrame {
-    private JPanel panelMain, panelHeader, panelBody;
-    private JLabel lb_privateKey, lb_publicKey, lb_algorithm, lb_padding, lb_mode, lb_keySize;
-    private JTextField tf_privateKey, tf_publicKey;
-    private JButton btn_genKeyPair, btn_exportKeyPair, btn_return, btn_delete;
-    private JComboBox<String> algorithm, padding,mode;
-    private JComboBox<Integer> keySize;
+
+    public JComboBox<String> cb_algorithm, cb_mode, cb_padding;
+    public JComboBox<Integer> cb_keySize;
+    public JTextField jtf_privateKey, jtf_publicKey;
+    public JButton btn_genKey, btn_exportKey, btn_return, btn_delete;
 
     public GenKeyPairGUI() throws HeadlessException {
-        initView();
+        init();
     }
 
-    private void initView() {
+    public void init() {
+        initComponents();
+        buildLayout();
 
-        this.setTitle("GenKeyPair");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setSize(800, 600);
-        this.setLocationRelativeTo(null);
+        setTitle("Tạo cặp khóa");
+        setSize(700, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setResizable(false);
+        setVisible(true);
+    }
 
-        panelMain = new JPanel(new BorderLayout());
+    private void initComponents() {
+        cb_algorithm = new JComboBox<>(new String[]{"RSA", "DSA"});
+        cb_mode      = new JComboBox<>(new String[]{"ECB"});
+        cb_padding   = new JComboBox<>(new String[]{"PKCS1Padding", "OAEPWithSHA-256AndMGF1Padding", "SHA256withRSA"});
+        cb_keySize   = new JComboBox<>(new Integer[]{1024, 2048, 3072});
 
-        panelHeader = new JPanel(new GridLayout(4,4));
-        lb_algorithm = new JLabel("Algorithm:");
-        lb_mode = new JLabel("Mode:");
-        lb_padding = new JLabel("Padding:");
-        lb_keySize = new JLabel("Key Size:");
+        jtf_privateKey = new JTextField();
+        jtf_publicKey  = new JTextField();
 
-        String[] algorithms = new String[]{"RSA", "DSA"};
-        algorithm = new JComboBox<>(algorithms);
-        String[] modes = new String[]{"ECB"};
-        mode = new JComboBox<>(modes);
-        String[] paddings = new String[]{"PKCS1Padding","OAEPWithSHA-256AndMGF1Padding","SHA256withRSA"};
-        padding = new JComboBox<>(paddings);
-        Integer[] keySizes = new Integer[]{1024,2048,3072};
-        keySize = new JComboBox<>(keySizes);
+        btn_genKey    = new JButton("Tạo khóa");
+        btn_exportKey = new JButton("Xuất khóa");
 
-        panelHeader.add(lb_algorithm);
-        panelHeader.add(algorithm);
-        panelHeader.add(lb_mode);
-        panelHeader.add(mode);
-        panelHeader.add(lb_padding);
-        panelHeader.add(padding);
-        panelHeader.add(lb_keySize);
-        panelHeader.add(keySize);
-        panelHeader.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        panelHeader.setBorder(BorderFactory.createTitledBorder("Key"));
+        btn_genKey.setFont(new Font("Arial", Font.BOLD, 13));
+        btn_genKey.setBackground(new Color(52, 152, 219));
+        btn_genKey.setForeground(Color.WHITE);
 
-        panelBody = new JPanel(new BorderLayout());
-        JPanel panelKey = new JPanel(new GridLayout(2,3));
-        lb_privateKey = new JLabel("Private Key:");
-        lb_publicKey = new JLabel("Public Key:");
-        tf_privateKey = new JTextField();
-        tf_publicKey = new JTextField();
-        btn_genKeyPair = new JButton("Gen Key");
-        btn_exportKeyPair = new JButton("Export Key");
-        panelKey.add(lb_privateKey);
-        panelKey.add(tf_privateKey);
-        panelKey.add(btn_genKeyPair);
-        panelKey.add(lb_publicKey);
-        panelKey.add(tf_publicKey);
-        panelKey.add(btn_exportKeyPair);
-        JPanel panelHelper = new JPanel(new FlowLayout());
-        btn_return = new JButton("Return");
-        btn_delete = new JButton("Delete");
-        panelHelper.add(btn_return);
-        panelHelper.add(btn_delete);
-        panelBody.add(panelKey, BorderLayout.NORTH);
-        panelBody.add(panelHelper, BorderLayout.CENTER);
-        panelBody.setBorder(BorderFactory.createTitledBorder("Gen Key"));
-        panelMain.add(panelHeader, BorderLayout.NORTH);
-        panelMain.add(panelBody, BorderLayout.CENTER);
-        this.setContentPane(panelMain);
-        this.setVisible(true);
+        btn_return = new JButton("Quay lại");
+        btn_delete = new JButton("Xóa");
+    }
+
+    private void buildLayout() {
+        getContentPane().setLayout(new GridBagLayout());
+        ((JPanel) getContentPane()).setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(8, 8, 8, 8);
+        gbc.fill   = GridBagConstraints.HORIZONTAL;
+
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.25;
+        add(new JLabel("Thuật toán:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.75;
+        add(cb_algorithm, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.25;
+        add(new JLabel("Mode:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.75;
+        add(cb_mode, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0.25;
+        add(new JLabel("Padding:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.75;
+        add(cb_padding, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0.25;
+        add(new JLabel("Key Size:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.75;
+        add(cb_keySize, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0.25;
+        add(new JLabel("Khóa bí mật:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.75;
+        JPanel p_private = new JPanel(new BorderLayout(5, 0));
+        p_private.add(jtf_privateKey, BorderLayout.CENTER);
+        p_private.add(btn_genKey,     BorderLayout.EAST);
+        add(p_private, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0.25;
+        add(new JLabel("Khóa công khai:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.75;
+        JPanel p_public = new JPanel(new BorderLayout(5, 0));
+        p_public.add(jtf_publicKey, BorderLayout.CENTER);
+        p_public.add(btn_exportKey, BorderLayout.EAST);
+        add(p_public, gbc);
+
+        gbc.gridx = 1; gbc.gridy = 6;
+        gbc.insets = new Insets(15, 8, 8, 8);
+        JPanel p_actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        p_actions.add(btn_return);
+        p_actions.add(btn_delete);
+        add(p_actions, gbc);
     }
 
     public static void main(String[] args) {
