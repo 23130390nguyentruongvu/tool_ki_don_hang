@@ -1,6 +1,7 @@
 package vn.edu.hcmuaf.fit.view;
 
 import vn.edu.hcmuaf.fit.controller.SignController;
+import vn.edu.hcmuaf.fit.model.enums.Algorithm;
 
 import javax.swing.*;
 import java.awt.*;
