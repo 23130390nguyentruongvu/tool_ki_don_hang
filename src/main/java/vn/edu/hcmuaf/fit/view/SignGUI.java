@@ -151,8 +151,4 @@ public class SignGUI extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE
         );
     }
-
-    public static void main(String[] args) {
-        new SignGUI(new SignController());
-    }
 }
