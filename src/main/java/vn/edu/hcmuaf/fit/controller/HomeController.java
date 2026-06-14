@@ -22,7 +22,6 @@ public class HomeController {
     }
 
     private void showGenKeyUI() {
-        view.setVisible(false);
         GenKeyPairGUI genKeyPairGUI = new GenKeyPairGUI(this.view);
         new GenKeyPairController(genKeyPairGUI, view);
     }
