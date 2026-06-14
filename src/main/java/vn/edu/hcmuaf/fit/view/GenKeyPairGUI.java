@@ -31,7 +31,7 @@ public class GenKeyPairGUI extends JFrame {
     private void initComponents() {
         cb_algorithm = new JComboBox<>(new String[]{"RSA", "DSA"});
         cb_mode      = new JComboBox<>(new String[]{"ECB"});
-        cb_padding   = new JComboBox<>(new String[]{"PKCS1Padding", "OAEPWithSHA-256AndMGF1Padding", "SHA256withRSA"});
+        cb_padding   = new JComboBox<>(new String[]{"PKCS1Padding", "OAEPWithSHA-256AndMGF1Padding"});
         cb_keySize   = new JComboBox<>(new Integer[]{2048, 3072});
 
         jtf_privateKey = new JTextField();
