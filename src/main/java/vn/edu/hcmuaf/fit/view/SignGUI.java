@@ -17,7 +17,7 @@ public class SignGUI extends JFrame {
     private JScrollPane scroll_sign_hash;
     private JScrollPane scroll_sign_result;
 
-    public JButton btn_sign_import_key, btn_sign_execute, btn_sign_copy;
+    public JButton btn_sign_import_key, btn_sign_execute, btn_sign_copy, btn_input_file, btn_export_file;
 
     private SignController signController;
 
@@ -71,6 +71,8 @@ public class SignGUI extends JFrame {
         btn_sign_execute.setForeground(Color.WHITE);
 
         btn_sign_copy = new JButton("Sao chép Chữ ký số");
+        btn_input_file   = new JButton("Nhập file");
+        btn_export_file  = new JButton("Xuất file");
     }
 
     private void buildLayout() {
@@ -109,8 +111,11 @@ public class SignGUI extends JFrame {
         gbc.gridy = 2;
         this.add(new JLabel("Mã băm đơn hàng (SHA-256):"), gbc);
         gbc.gridx = 1;
-        gbc.weighty = 0.25;
-        this.add(scroll_sign_hash, gbc);
+        gbc.weighty = 0.75;
+        JPanel p_hash = new JPanel(new BorderLayout(5, 0));
+        p_hash.add(scroll_sign_hash, BorderLayout.CENTER);
+        p_hash.add(btn_input_file, BorderLayout.EAST);
+        this.add(p_hash, gbc);
 
         //dòng chứa nút ký đơn
         gbc.gridx = 0;
@@ -134,13 +139,18 @@ public class SignGUI extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 5;
         gbc.weighty = 0;
-        this.add(btn_sign_copy, gbc);
+        JPanel p_actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        p_actions.add(btn_export_file);
+        p_actions.add(btn_sign_copy);
+        this.add(p_actions, gbc);
     }
 
     public void registerController(ActionListener actionListener) {
         btn_sign_import_key.addActionListener(actionListener);
         btn_sign_execute.addActionListener(actionListener);
         btn_sign_copy.addActionListener(actionListener);
+        btn_input_file.addActionListener(actionListener);
+        btn_export_file.addActionListener(actionListener);
     }
 
     public void showMessage(String msg) {
