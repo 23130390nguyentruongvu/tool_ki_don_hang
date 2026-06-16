@@ -6,6 +6,7 @@ import vn.edu.hcmuaf.fit.view.SignGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class SignController implements ActionListener {
     private SignGUI signGUI;
@@ -30,7 +31,44 @@ public class SignController implements ActionListener {
             }
         } else if (src == signGUI.btn_sign_copy) {
             handleCopyResult();
+        } else if (src == signGUI.btn_input_file) {
+            handleInputFile();
+        } else if (src == signGUI.btn_export_file) {
+            try {
+                handleExportFile();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
+    }
+
+    private void handleExportFile() throws IOException {
+        String data = signGUI.txtArea_sign_result.getText();
+        if (data.isEmpty()) {
+            signGUI.showMessage("Chưa có dữ liệu");
+            return;
+        }
+        String path = FileUtils.getFilePath();
+        try {
+            FileUtils.exportKey(path, data);
+            signGUI.showMessage("Xuất file thành công!");
+        } catch (Exception e) {
+            signGUI.showMessage("Lỗi xuất file: " + e.getMessage());
+        }
+    }
+
+    private void handleInputFile() {
+        String path = FileUtils.getFilePath();
+        if (path == null){
+            return;
+        }
+        try {
+            String data  = FileUtils.importKey(path);
+            signGUI.txtArea_sign_hash.setText(data);
+        } catch (IOException e) {
+            signGUI.showMessage("Không thể tải file: " + e.getMessage());
+        }
+
     }
 
     private void handleSign() throws Exception {
