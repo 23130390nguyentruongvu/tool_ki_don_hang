@@ -6,7 +6,11 @@ import vn.edu.hcmuaf.fit.view.SignGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 public class SignController implements ActionListener {
     private SignGUI signGUI;
@@ -48,9 +52,10 @@ public class SignController implements ActionListener {
             signGUI.showMessage("Chưa có dữ liệu");
             return;
         }
-        String path = FileUtils.getFilePath();
+        String path = FileUtils.getFolderPath();
         try {
-            FileUtils.exportKey(path, data);
+            String pathDetail = path +File.separator + "chu_ki_so" + new Date().getTime() + ".txt";
+            FileUtils.exportKey(pathDetail, data);
             signGUI.showMessage("Xuất file thành công!");
         } catch (Exception e) {
             signGUI.showMessage("Lỗi xuất file: " + e.getMessage());
